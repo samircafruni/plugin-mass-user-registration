@@ -28,19 +28,6 @@ jobs:
           dev: no
           args: -o --ignore-platform-reqs -d ./
 
-      - name: Rodando o NodeJS
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Rodando o Yarn
-        working-directory: ./
-        run: yarn
-
-      - name: Compilando os Assets
-        working-directory: ./
-        run: npm run mix-prod
-
       - name: Copiando Arquivos
         uses: burnett01/rsync-deployments@5.1
         with:
