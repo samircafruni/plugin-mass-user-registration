@@ -18,7 +18,7 @@ jobs:
           path: /tmp/composer-cache
           key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
 
-      - name: Executando composer install para dependências do Wordpress
+      - name: Rodando o Composer
         env:
           COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.GIT_TOKEN }}"}}'
         uses: php-actions/composer@v5
@@ -28,20 +28,20 @@ jobs:
           dev: no
           args: -o --ignore-platform-reqs -d ./
 
-      - name: Setup do NodeJS para o plugin
+      - name: Rodando o NodeJS
         uses: actions/setup-node@v2
         with:
           node-version: '14'
 
-      - name: Executando yarn install
+      - name: Rodando o Yarn
         working-directory: ./
         run: yarn
 
-      - name: Executando a construção dos assets
+      - name: Compilando os Assets
         working-directory: ./
         run: npm run mix-prod
 
-      - name: Copiando arquivos do plugin
+      - name: Copiando Arquivos
         uses: burnett01/rsync-deployments@5.1
         with:
           switches: --no-perms -O --filter="merge rsync-filter.txt" --delete -Prltvz
